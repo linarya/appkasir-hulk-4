@@ -17,14 +17,14 @@ session_start();
     <title>Document</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-light navbar-dark">
+<nav class="navbar navbar-expand-sm bg-info navbar-light navbar-dark">
   <div class="container">
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link active" href="?page=home">Home</a>
       </li>
      <li class="nav-item">
-        <a class="nav-link" href="?page=home">Data Kategori</a>
+        <a class="nav-link" href="?page=home">Data Pelanggan</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?page=barang">Data Barang</a>
@@ -33,15 +33,30 @@ session_start();
     <ul class="navbar-nav navbar-right">
       <li class="nav-item"><a class="nav-link" href="#">
         <a class="nav-link active" href="?page=home">user</a>
-        <a class="nav-link active" href="?page=logout">logout</a>
+        <a class="nav-link active" href="?page=log out">log out</a>
 
   </ul>
   </div>
-</nav>
-<br>
+  </nav>
+    <br>
 <?php
   $page = $_GET['page'];
   switch($page) {
+    case"pelanggan";
+      include"pelanggan.php";
+    break;
+    case"pelanggan";
+      include"pelanggan.php";
+    break;
+    case"barang";
+      include"barang.php";
+    break;
+    case"barang";
+      include"barang.php";
+    break;
+    case"login";
+      include"login.php";
+    break;
     case"login";
       include"login.php";
     break;
