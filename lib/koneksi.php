@@ -1,3 +1,3 @@
 <?php
-    $con = mysqli_conect ("localhost","root","faisol23",);
+    $con = new mysqli ("localhost","root","12345678","db_travel");
 ?>
