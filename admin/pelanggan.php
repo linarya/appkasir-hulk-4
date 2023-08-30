@@ -1,106 +1,201 @@
 <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <?php
-          if($_GET['edit']=='edit-pelanggan'){
-              $sqledit = $con->query("SELECT*FROM tb_pelanggan WHERE id_pel='$_GET[id]'");
-              $rview=$sqledit->fetch_array();
-              ?>
-      <div class="card">
-          <div class="card-header bg-info text-white">Edit Data Kategori</div>
-            <div class="card-body">
-              <form action="" method="POST">
-                <input type="hidden"  value="<?=$rview['id_pel']?>" name="id">
-              <div class="form-group mb-3 mt-3">
-                <label for="pwd">Kategori</label>
-                <input type="text" class="form-control form-control-sm" value="<?=$rview['pelanggan']?>" placeholder="Masukan Kategori" name="mn">
-              </div>
-              <button type="submit" class="btn btn-info" name="btnedit">Update</button>
-              </form>
-            </div>
-          <div class="card-footer bg-info text-white"></div>
-      </div>
-    <?php 
-      if(isset($_POST['btnedit'])){
-          $sqlpro = $con->query("UPDATE tb_pelanggan SET kategori='$_POST[mn]' WHERE id_pel='$_POST[id]'");
-          if($sqlpro){
-                echo"<script>alert('Data Berhasil Di Rubah')document.location.href='?page=menu';</script>";
+        <div class="row">
+            <div class="col-sm-4">
 
-          }else{
-                echo"<script>alert('Gagal Di Rubah')document.location.href='?page=menu';</script>";
-          }
-      }
-          }else{
-        ?>
-      <div class="card">
-          <div class="card-header bg-info text-white">Input Data Kategori</div>
-            <div class="card-body">
-              <form action="" method="POST">
-              <div class="form-group mb-3 mt-3">
-                <label for="pwd">Kategori</label>
-                <input type="text" class="form-control form-control-sm" placeholder="Masukan Kategori" name="mn">
-              </div>
-              <button type="submit" class="btn btn-info" name="btn">Insert</button>
-              </form>
-            </div>
-          <div class="card-footer bg-info text-white"></div>
-        </div>
-        <?php } ?>
-  </div>
-  <?php
-        if(isset($_POST['btn'])){
-            $a = $_POST['mn'];
-            $sql=$con->query("INSERT INTO tb_pelanggan VALUES('','$a')");
-            if($sql){
-              echo"<script>alert('Data Berhasil masuk.');</script>";
-            }else{
-              echo"<script>alert('Data Gagal masuk.');</script>";
-            }
-        }
-    ?>
+                <?php
+                    $temp = '../produk/';
+                 if($_GET['edit']=='edit-barang') {
+                    $sqledit = $con->query("SELECT*FROM tb_pelanggan WHERE id_pel='$_GET[id]'");
+                    $rview=$sqledit->fetch_array();
+                    $kd = $rview['id_pel'];
+                   ?>
 
-    <div class="col-sm-8">
-    <div class="card">
-          <div class="card-header bg-info text-white">Output Data Kategori</div>
-            <div class="card-body">
-                  <table class="table table-sm">
-                  <thead class="thead-light">
-                      <tr>
-                        <th>No</th>
-                        <th>Kategori</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                          $no = 0;
-                          $sqli = $con->query("SELECT*FROM tb_pelanggan");
-                          while ($resl=$sqli->fetch_array()) {
-                            ?>
+                <div class="card">
+                    <div class="card-header bg-info text-white">Edit Data Barang</div>
+                    <div class="card-body">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" class="form-control form-control-sm" name="id_bar" value="<?=$rview[id_barang]?>">
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Kategori Barang</label>
+                                <select class="form-control form-control-sm" name="kd">
+                                    
+                                    <?php
+                                        $sqlkat = $con->query("SELECT*FROM tb_pelanggan");
+                                        // struktur logika
+                                        while ( $vkat = $sqlkat->fetch_array()) {
+                                            ?>
+                                            <option value='<?=$vkat[id_pel]?>'<?php if($vkat[id_pel]==$kd) {
+                                                        echo'selected';
+                                                    } ?> > <?=$vkat[Pelanggan]?>
+                                            </option>
+
+                                            <?php
+                                        }
+                                    ?>
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Nama Menu</label>
+                                <input type="text" class="form-control form-control-sm" name="nm" value="<?=$rview[nama]?>">
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Harga Menu</label>
+                                <input type="text" class="form-control form-control-sm" name="hrg" value="<?=$rview[harga]?>">
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Deskripsi Menu</label> <br>
+                                <textarea class="form-control form-control-sm" name="dsk"><?=$rview[desk]?></textarea>
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Gambar Menu</label> <br>
+                                <img src="../produk/<?=$rview['gambar']?>" width="80">
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <input type="file" name="gbr">
+                            </div>
+                            <button type="submit" class="btn btn-info text-white" name="btnedit">Update</button>
+                        </form>
+                    </div>
+                    <div class="card-footer bg-info text-white"></div>
+                </div>
+                <!-- edit -->
+                <?php
+                    if(isset($_POST['btnedit'])){
+                        
+                        if(empty($_FILES['gbr']['name'])){
+                        
+                        $sqlpro = $con->query("UPDATE tb_pelanggan SET id_pel='$_POST[id]', nama='$_POST[nm]', harga='$_POST[hrg]', desk='$_POST[dsk]' WHERE id_pel='$_POST[id_pel]'");
+                        } elseif (!empty($_FILES['gbr']['name'])) {
+                            $gbr = $_FILES['gbr']['name'];
+                            move_uploaded_file($_FILES['gbr']['tmp_name'], $temp.$gbr);
+                            $sqlpro = $con->query("UPDATE tb_pelanggan SET id_pel='$_POST[id]', nama='$_POST[nm]', harga='$_POST[hrg]', desk='$_POST[dsk]', gambar='$gbr' WHERE id_pel='$_POST[id_pel]'");
+                        }
+                        
+                        
+                        if($sqlpro) {
+                            echo"<script>alert('Berhasil Di Edit');document.location.href='?page=barang';</script>";
+                        }else{
+                            echo"<script>alert('Gagal Di Edit');document.location.href='?page=barang';</script>";
+                        }
+                    }
+
+                    }else{
+                ?>
+
+                <div class="card">
+                    <div class="card-header bg-info text-white">Input Data Makanan</div>
+                    <div class="card-body">
+                        <form action="" method="POST" enctype="multipart/form-data" style="font-size: 14px">
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Kategori Menu</label>
+                                <select class="form-control form-control-sm" name="id">
+                                    
+                                    <?php
+                                        $sqlkat = $con->query("SELECT*FROM tb_pelanggan");
+                                        // struktur logika
+                                        while ( $vkat = $sqlkat->fetch_array()) {
+                                            echo"<option value='$vkat[id_pel]'>$vpel[pelanggan]</option>";
+                                        }
+                                    ?>
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Nama Menu</label>
+                                <input type="text" class="form-control form-control-sm" name="nm">
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Harga Menu</label>
+                                <input type="text" class="form-control form-control-sm" name="hrg">
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Deskripsi Menu</label> <br>
+                                <textarea class="form-control form-control-sm" name="dsk" ></textarea>
+                            </div>
+                            <div class="form-group mb-3 mt-3">
+                                <label for="pwd" class="form-label">Gambar Menu</label> <br>
+                                <input type="file" name="gbr">
+                            </div>
+                            <button type="submit" class="btn btn-info text-white" name="btn">Insert</button>
+                        </form>
+                    </div>
+                    <div class="card-footer bg-info text-white"></div>
+                </div>
+
+                <?php
+                    }
+                ?>
+
+            </div>
+
+            <!-- perintah input -->
+            <?php
+                if(isset($_POST['btn'])) {
+                    $a = $_POST['kd'];
+                    $b = $_POST['nm'];
+                    $c = $_POST['hrg'];
+                    $d = $_POST['dsk'];
+                    $img = $_FILES['gbr']['name'];
+                    move_uploaded_file($_FILES['gbr']['tmp_name'], $temp.$img);
+                    $sql = $con->query("INSERT INTO tb_pelanggan VALUES('', '$a', '$b', '$c', '$d', '$img')");
+                    if($sql) {
+                        echo "<script>alert('Data Berhasil Masuk...');</script>";
+                    } else {
+                        echo "<script>alert('Data Gagal Masuk...');</script>";
+                    }
+                }
+            ?>
+
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-header bg-info text-white">Output Data Barang</div>
+                    <div class="card-body">
+                        <table class="table table-sm" style="font-size: 12px">
+                            <thead class="thead-light bg-secondary">
                             <tr>
-                            <td><?=$no=$no+1?></td>
-                            <td><?=$resl['kategori']?></td>
-                            <td><a href="?page=menu&edit=edit-kategori&id=<?=$resl['id_pel']?>" class="btn btn-warning">Ubah</a> 
-                            || <a href="?page=menu&hapus=hapus-kategori&id=<?=$resl['id_pel']?>" class="btn btn-danger">Hapus</a></td>
-                          </tr>
-                          <?php
-                          }
-                          if($_GET['hapus']=='hapus-kategori'){
-                          $sqlhapus = $con->query("DELETE FROM tb_pelanggan WHERE id_pel='$_GET[id]'");
-                          if($sqlhapus){
-                                echo"<script>document.location.href='?page=menu';</script>";      
-                          }else{
-                                echo"<script>document.location.href='?page=menu';</script>";
-                          }
-                          }
-                          ?>
+                                <th>No</th>
+                                <th>Nama Menu</th>
+                                <th>Harga Menu</th>
+                                <th>Deskripsi Menu</th>
+                                <th>Gambar Menu</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                    </tbody>  
-                  </table>            
+                                <!-- perintah output -->
+                                <?php
+                                    $no = 0;
+                                    $sqli = $con->query("SELECT*FROM tb_pelanggan");
+                                    while ($resl=$sqli->fetch_array()) {
+                                        ?>
+                                        <tr>
+                                            <td><?=$no=$no+1?></td>
+                                            <td><?=$resl['nama']?></td>
+                                            <td>Rp. <?=number_format($resl['harga'])?></td>
+                                            <td><?=substr($resl['desk'],0,30)?>...</td>
+                                            <td><img src="../produk/<?=$resl['gambar']?>" width="100"></td>
+                                            <td><a href="?page=pelanggan&edit=edit-pelanggan&id=<?=$resl['id_pel']?>" class="btn btn-info">Edit</a> | <a href="?page=pelanggan&hapus=hapus-pelanggan&id=<?=$resl['id_pelanggan']?>" class="btn btn-danger">Delete</a></td>
+                                        </tr> 
+                                    <?php
+                                    }
+                                    // hapus
+                                    if($_GET['hapus']=='hapus-pelanggan') {
+                                    $sqlhapus = $con->query("DELETE FROM tb_pelanggan WHERE id_barang='$_GET[id]'");
+                                    if($sqlhapus) {
+                                        echo"<script>document.location.href='?page=barang';</script>";
+                                    }else{
+                                        echo"<script>document.location.href='?page=barang';</script>";
+                                    }
+                                    }
+                                ?>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer  bg-info text-white"></div>
+                </div>
             </div>
-          <div class="card-footer bg-info"></div>
         </div>
-
     </div>
-  </div>
-</div>
