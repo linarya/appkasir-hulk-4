@@ -1,5 +1,5 @@
 <?php
-include"lib/koneksi.php";
+include"../lib/koneksi.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,61 +30,6 @@ include"lib/koneksi.php";
     </head>
 
 <body>
- 
-    
-    <?php
-    include"modul/menuatas.php";
-    include"modul/banner.php";
-    //include"modul/popular.php";
-    include"modul/blog.php";
-    include"modul/services.php";
-    include"modul/table.php";
-    include"modul/contact.php";
-    include"modul/footer.php";
-    ?>                               
-                               
-       
-      
-
-    
-    
-                   
-                            
-
-    
-           
-                
-                
-                
-               
-                
-                
-                
-                
-                
-                
-                
-                
-               
-                
-
-
-
-    
-           
-                           
-                       
-                                
-                
-                           
-                                    
-                
-                        
-                                        
-
-
-
-    
         
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" type="text/javascript"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>

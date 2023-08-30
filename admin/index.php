@@ -4,6 +4,8 @@ session_start();
   if(!isset($_SESSION['user'])) {
     include"login.php";
   }else{
+    $user = $con->query("SELECT*FROM tb_user WHERE username='$_SESSION[user]'");
+    $view= $user->fetch_array();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,38 +30,28 @@ session_start();
         <a class="nav-link" href="?page=barang">Data Barang</a>
       </li>
   </ul>
-  <ul>
-        <li class="nav-item">
-          <a class="nav-link" href="?hal=barang"><i class="far fa-user-circle"></i>user
-          <?php
-            if($lvl=='admin'){
-                echo"admin";
-            }elseif ($lvl=='user'){
-               echo"user";
-            }
-          ?>
-          </a></li>
-        <li class="nav-item"><a class="nav-link" href="?page=logout"><i class="fas fa-sign-alt"></i>logout</a></li>
-      </ul>
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item"><a class="nav-link" href="#">
+        <a class="nav-link active" href="?page=home">user</a>
+        <a class="nav-link active" href="?page=logout">logout</a>
+
+  </ul>
   </div>
 </nav>
 <br>
 <?php
   $page = $_GET['page'];
   switch($page) {
-    case"home";
-      include"menu.php";
-    break;
-    case"barang";
-      include"Barang.php";
-    break;
     case"login";
-      include"page.php";
+      include"login.php";
     break;
     case"logout";
       include"logout.php";
     break;
+   
+   
   }
+
 ?>
 </body>
 </html>

@@ -1,7 +1,8 @@
 <?php
 session_start();
-if($_SESSION['user']){
+if($_SSESION['user']){
     session_destroy();
-    echo"<script>document.locaiton.href='index.php'</script>";
+    echo"<script>document.location.href='index.php'</script>";
+    
 }
 ?>

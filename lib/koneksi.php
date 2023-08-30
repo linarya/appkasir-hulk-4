@@ -1,3 +1,3 @@
 <?php
-    $con = new mysqli ("localhost","root","12345678","db_travel");
+    $con = new mysqli ("localhost","root","faisol23","db_appkasir");
 ?>
