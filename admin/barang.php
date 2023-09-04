@@ -84,7 +84,7 @@
                 ?>
 
                 <div class="card">
-                    <div class="card-header bg-info text-white">Input Data Makanan</div>
+                    <div class="card-header bg-info text-white">Input Data Barang</div>
                     <div class="card-body">
                         <form action="" method="POST" enctype="multipart/form-data" style="font-size: 14px">
                             <div class="form-group mb-3 mt-3">
